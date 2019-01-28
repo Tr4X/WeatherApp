@@ -11,7 +11,7 @@ public class WebserviceController {
     private static final String API_KEY = "04b059b9ead591f473fec4e719bba12c";
 
     public static ArrayList<WeatherInfo> getWeatherInfos(double longitude, double latitude) {
-        String weatherUrl = "https://api.darksky.net/forecast/" + API_KEY + "/" + longitude + "," + latitude + "?units=si";
+        String weatherUrl = "https://api.darksky.net/forecast/" + API_KEY + "/" + latitude + "," + longitude + "?units=si";
         try {
             String response = new GetWebserviceAsyncTask().execute(weatherUrl).get();
             return JSONParser.parseResponseForWeather(response);

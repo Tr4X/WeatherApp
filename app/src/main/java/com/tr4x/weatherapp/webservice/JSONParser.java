@@ -15,18 +15,18 @@ class JSONParser {
     static ArrayList<WeatherInfo> parseResponseForWeather(String response) {
         ArrayList<WeatherInfo> weatherList = new ArrayList<>();
         try {
-
             JSONObject jsonObject = new JSONObject(response);
 
             JSONObject currentWeatherObject = jsonObject.getJSONObject("currently");
+            String timezone = getJsonString(jsonObject, "timezone");
 
-            weatherList.add(parseObjectForWeather(currentWeatherObject));
+            weatherList.add(parseObjectForWeather(currentWeatherObject, timezone));
 
             JSONArray dailyWeatherArray = jsonObject.getJSONObject("daily").getJSONArray("data");
 
             for (int i = 0; i < dailyWeatherArray.length(); i++) {
                 JSONObject weatherObject = dailyWeatherArray.getJSONObject(i);
-                weatherList.add(parseObjectForWeather(weatherObject));
+                weatherList.add(parseObjectForWeather(weatherObject, timezone));
             }
 
         } catch (JSONException e) {
@@ -36,7 +36,7 @@ class JSONParser {
         return weatherList;
     }
 
-    private static WeatherInfo parseObjectForWeather(JSONObject weatherObject) {
+    private static WeatherInfo parseObjectForWeather(JSONObject weatherObject, String timezone) {
         long time = getJsonTime(weatherObject);
         String summary = getJsonString(weatherObject, "summary");
         String icon = getJsonString(weatherObject, "icon");
@@ -46,7 +46,7 @@ class JSONParser {
         double temperatureMax = 0d;
 
         try {
-             temperature = weatherObject.getLong("temperature");
+            temperature = weatherObject.getLong("temperature");
         } catch (JSONException e) {
             try {
                 temperatureMin = weatherObject.getLong("temperatureLow");
@@ -57,7 +57,7 @@ class JSONParser {
         }
 
 
-        return new WeatherInfo(summary, icon, time, temperature, temperatureMin, temperatureMax);
+        return new WeatherInfo(summary, icon, time, temperature, temperatureMin, temperatureMax, timezone);
     }
 
     private static long getJsonTime(JSONObject jsonObject) {
