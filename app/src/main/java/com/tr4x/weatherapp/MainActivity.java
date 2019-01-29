@@ -1,11 +1,14 @@
 package com.tr4x.weatherapp;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
@@ -51,6 +54,14 @@ public class MainActivity extends AppCompatActivity {
                 fetchWeather();
                 findViewById(R.id.errorBtn).setVisibility(View.INVISIBLE);
                 findViewById(R.id.errorText).setVisibility(View.INVISIBLE);
+            }
+        });
+
+        findViewById(R.id.infoBtn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://darksky.net"));
+                startActivity(browserIntent);
             }
         });
 
@@ -136,6 +147,18 @@ public class MainActivity extends AppCompatActivity {
 
                                 String forecast1Txt = DateFormat.format("EEEE, d MMM", new Date(weatherList.get(i + 1).getTime() * 1000)).toString() + ": " + weatherList.get(i + 1).getSummary() + "\nMin: " + weatherList.get(i + 1).getTemperatureMin() + "\u2103" + " - Max: " + weatherList.get(i + 1).getTemperatureMax() + "\u2103";
                                 forecastTextViews.get(i).setText(forecast1Txt);
+
+                                final int index = i;
+                                View.OnClickListener clickListener = new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        DialogFragment dialog = new WeatherInfoDialog(weatherList.get(index + 1));
+                                        dialog.show(getSupportFragmentManager(), "WeatherDialog");
+
+                                    }
+                                };
+                                forecastTextViews.get(i).setOnClickListener(clickListener);
+                                forecastImageViews.get(i).setOnClickListener(clickListener);
                             }
                         } else {
                             findViewById(R.id.errorBtn).setVisibility(View.VISIBLE);
