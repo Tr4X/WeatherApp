@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#A9A9FF"
     android:padding="16dp"
     tools:context=".MainActivity">
 
@@ -13,7 +14,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@id/forecast1"
+        app:layout_constraintBottom_toTopOf="@id/separator"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -21,7 +22,10 @@
         <TextView
             android:id="@+id/cityTextView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
         <ImageView
             android:id="@+id/currentImageView"
@@ -31,14 +35,29 @@
         <TextView
             android:id="@+id/currentDateTextView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF" />
 
         <TextView
             android:id="@+id/currentSummaryTextView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp"
+            android:textStyle="italic" />
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#FFFFFF"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@id/forecast1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topPart" />
 
     <ImageView
         android:id="@+id/forecast1"
@@ -47,7 +66,7 @@
         app:layout_constraintBottom_toTopOf="@id/forecast2"
         app:layout_constraintEnd_toStartOf="@+id/forecastText1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/topPart" />
+        app:layout_constraintTop_toBottomOf="@+id/separator" />
 
     <TextView
         android:id="@+id/forecastText1"
@@ -56,6 +75,7 @@
         android:lines="3"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/forecast1"
         app:layout_constraintStart_toEndOf="@id/forecast1"
         app:layout_constraintTop_toTopOf="@+id/forecast1" />
@@ -75,6 +95,7 @@
         android:lines="3"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/forecast2"
         app:layout_constraintStart_toEndOf="@id/forecast2"
         app:layout_constraintTop_toTopOf="@+id/forecast2" />
@@ -94,6 +115,7 @@
         android:lines="3"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/forecast3"
         app:layout_constraintStart_toEndOf="@id/forecast3"
         app:layout_constraintTop_toTopOf="@+id/forecast3" />
@@ -113,6 +135,7 @@
         android:lines="3"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/forecast4"
         app:layout_constraintStart_toEndOf="@id/forecast4"
         app:layout_constraintTop_toTopOf="@+id/forecast4" />
@@ -132,6 +155,7 @@
         android:lines="3"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="@id/forecast5"
         app:layout_constraintStart_toEndOf="@id/forecast5"
         app:layout_constraintTop_toTopOf="@+id/forecast5" />
@@ -142,6 +166,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:text="@string/permission_text"
+        android:textColor="#FFFFFF"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -158,5 +183,40 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/permissionText" />
+
+    <TextView
+        android:id="@+id/errorText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:text="@string/error_text"
+        android:textColor="#FFFFFF"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/errorBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/error_btn"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/permissionText" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="#FFFFFF"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>
