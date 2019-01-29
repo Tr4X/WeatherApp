@@ -8,11 +8,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class GetWebserviceAsyncTask extends AsyncTask<String, Void, String> {
+class GetWebserviceAsyncTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... urls) {
         URL url;
         HttpURLConnection urlConnection = null;
-        String response = "";
+        String response;
         StringBuilder responseStrBuilder = new StringBuilder(2048);
 
         try {
@@ -38,7 +38,6 @@ public class GetWebserviceAsyncTask extends AsyncTask<String, Void, String> {
             }
         }
         response = responseStrBuilder.toString();
-        responseStrBuilder = null;
         return response;
     }
 }

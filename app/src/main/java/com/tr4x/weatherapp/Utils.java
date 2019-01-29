@@ -1,6 +1,6 @@
 package com.tr4x.weatherapp;
 
-public class Utils {
+class Utils {
 
     // Mapping of the dark sky icon definition with the openweathermap icons url
     public static String getUrlForIcon(String icon) {

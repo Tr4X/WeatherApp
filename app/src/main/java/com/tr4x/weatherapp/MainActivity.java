@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
@@ -42,18 +43,18 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.permissionBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                askForPermission();
                 findViewById(R.id.permissionBtn).setVisibility(View.INVISIBLE);
                 findViewById(R.id.permissionText).setVisibility(View.INVISIBLE);
+                askForPermission();
             }
         });
 
         findViewById(R.id.errorBtn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fetchWeather();
                 findViewById(R.id.errorBtn).setVisibility(View.INVISIBLE);
                 findViewById(R.id.errorText).setVisibility(View.INVISIBLE);
+                getLastKnownLocation();
             }
         });
 
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == MY_LOCATION_REQUEST_CODE) {
             if (permissions.length == 1 &&
                     permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
@@ -152,7 +153,15 @@ public class MainActivity extends AppCompatActivity {
                                 View.OnClickListener clickListener = new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        DialogFragment dialog = new WeatherInfoDialog(weatherList.get(index + 1));
+                                        WeatherInfoDialog dialog = new WeatherInfoDialog();
+
+                                        Bundle args = new Bundle();
+                                        args.putString("icon", weatherList.get(index + 1).getIcon());
+                                        args.putString("temp", "Min: " + weatherList.get(index + 1).getTemperatureMin() + "\u2103" + " - Max: " + weatherList.get(index + 1).getTemperatureMax() + "\u2103");
+                                        args.putString("date", DateFormat.format("EEEE, d MMM", new Date(weatherList.get(index + 1).getTime() * 1000)).toString());
+                                        args.putString("summary", weatherList.get(index + 1).getSummary());
+                                        dialog.setArguments(args);
+
                                         dialog.show(getSupportFragmentManager(), "WeatherDialog");
 
                                     }
@@ -187,9 +196,15 @@ public class MainActivity extends AppCompatActivity {
                     optimalLocation = providerLocation;
                 }
             }
-            latitude = optimalLocation.getLatitude();
-            longitude = optimalLocation.getLongitude();
-            fetchWeather();
+
+            if (optimalLocation != null) {
+                latitude = optimalLocation.getLatitude();
+                longitude = optimalLocation.getLongitude();
+                fetchWeather();
+            } else {
+                findViewById(R.id.errorBtn).setVisibility(View.VISIBLE);
+                findViewById(R.id.errorText).setVisibility(View.VISIBLE);
+            }
         }
     }
 }
